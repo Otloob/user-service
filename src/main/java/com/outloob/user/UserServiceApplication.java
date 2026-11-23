@@ -1,4 +1,4 @@
-package com.outloob.user_service;
+package com.outloob.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
