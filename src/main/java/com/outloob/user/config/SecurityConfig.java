@@ -18,6 +18,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // service-to-service calls: the token must carry scope "internal"
+                        .requestMatchers("/internal/**").hasAuthority("SCOPE_internal")
+                        // everything else: a normal user access token
                         .anyRequest().access((authentication, context) ->
                                 new AuthorizationDecision(
                                         authentication.get().getPrincipal() instanceof Jwt jwt

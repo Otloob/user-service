@@ -79,6 +79,11 @@ public class AddressService {
         return address;
     }
 
+    @Transactional(readOnly = true)
+    public Address get(Long userId, UUID addressId) {
+        return findOwned(userId, addressId);
+    }
+
     private Address findOwned(Long userId, UUID addressId) {
         return addressRepository.findByIdAndUserIdAndDeletedAtIsNull(addressId, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Address not found"));

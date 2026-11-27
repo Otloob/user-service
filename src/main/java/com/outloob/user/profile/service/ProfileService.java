@@ -1,5 +1,6 @@
 package com.outloob.user.profile.service;
 
+import com.outloob.user.common.exception.ResourceNotFoundException;
 import com.outloob.user.profile.dto.UpdateProfileRequest;
 import com.outloob.user.profile.entity.UserProfile;
 import com.outloob.user.profile.repository.UserProfileRepository;
@@ -21,6 +22,12 @@ public class ProfileService {
             profile.setEmail(email);
             return repository.save(profile);
         });
+    }
+
+    @Transactional(readOnly = true)
+    public UserProfile getById(Long userId) {
+        return repository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Transactional
